@@ -1,5 +1,7 @@
 import "./App.css";
+import Count from "./Count";
 import { useState, useEffect } from "react";
+import CountContext from "./context/CountContext";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -10,9 +12,12 @@ function App() {
   return (
     <>
       <h1>React App</h1>
+      <CountContext.Provider value={count}>
+        <Count />
+      </CountContext.Provider>
 
       <button onClick={() => setCount((prev) => prev + 1)}>+1</button>
-      <p>{count}</p>
+
       <button onClick={() => setCount((prev) => prev - 1)}>-1</button>
     </>
   );
