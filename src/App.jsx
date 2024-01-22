@@ -1,36 +1,39 @@
 import { useReducer, useMemo, useState } from "react";
 import "./App.css";
+import { people as people2 } from "./data.js";
+import { getImageUrl } from "./utils.js";
 
-// function reducer(state, action) {
-//   switch (action.type) {
-//     case "increment":
-//       return state + 1;
-//     case "decrement":
-//       return state - 1;
-//     default:
-//       throw new Error();
-//   }
-// }
+const people = [
+  "Creola Katherine Johnson: mathematician",
+  "Mario José Molina-Pasquel Henríquez: chemist",
+  "Mohammad Abdus Salam: physicist",
+  "Percy Lavon Julian: chemist",
+  "Subrahmanyan Chandrasekhar: astrophysicist",
+];
 
 function App() {
-  // const [state, dispatch] = useReducer(reducer, 0);
-  const [count, setCount] = useState(60);
+  const listItems = people.map((person, index) => (
+    <li key={index}>{person}</li>
+  ));
 
-  {
-    /* lets you cache the result of a calculation between re-renders. */
-  }
-  const expensiveCount = useMemo(() => {
-    return count ** 2;
-  }, [count]);
+  const chemists = people2.filter((person) => person.profession === "chemist");
+
+  const listItems2 = chemists.map((person) => (
+    <li key={person.name}>
+      <img src={getImageUrl(person)} alt={person.id} />
+      <p>
+        <b>{person.name}:</b>
+        {" " + person.profession + " "}
+        known for {person.accomplishment}
+      </p>
+    </li>
+  ));
   return (
     <>
-      <p>{count}</p>
-      {/* Count: {state}
-      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
-      <button onClick={() => dispatch({ type: "increment" })}>+</button> */}
+      <ul>{listItems}</ul>
+      <ul>{listItems2}</ul>
     </>
   );
 }
 
 export default App;
-
