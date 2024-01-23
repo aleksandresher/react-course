@@ -1,38 +1,30 @@
-import { useReducer, useMemo, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import { people as people2 } from "./data.js";
-import { getImageUrl } from "./utils.js";
-
-const people = [
-  "Creola Katherine Johnson: mathematician",
-  "Mario José Molina-Pasquel Henríquez: chemist",
-  "Mohammad Abdus Salam: physicist",
-  "Percy Lavon Julian: chemist",
-  "Subrahmanyan Chandrasekhar: astrophysicist",
-];
 
 function App() {
-  const listItems = people.map((person, index) => (
-    <li key={index}>{person}</li>
-  ));
-
-  const chemists = people2.filter((person) => person.profession === "chemist");
-
-  const listItems2 = chemists.map((person) => (
-    <li key={person.name}>
-      <img src={getImageUrl(person)} alt={person.id} />
-      <p>
-        <b>{person.name}:</b>
-        {" " + person.profession + " "}
-        known for {person.accomplishment}
-      </p>
-    </li>
-  ));
   return (
-    <>
-      <ul>{listItems}</ul>
-      <ul>{listItems2}</ul>
-    </>
+    <div
+      onClick={() => {
+        alert("Button wrapper div was clicked");
+      }}
+    >
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          alert("first button was clicked");
+        }}
+      >
+        Button 1
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          alert("second button was clicked");
+        }}
+      >
+        Button 2
+      </button>
+    </div>
   );
 }
 
