@@ -1,40 +1,36 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState, useCallback } from "react";
 import "./App.css";
+import List from "./components/List";
 
 function App() {
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(1);
   const [dark, setDark] = useState(false);
 
-  const slowFunction = function (num) {
-    console.log("Calling slow function");
-    for (let i = 0; i < 10000000; i++) {
-      return num * 2;
-    }
+  const getItems = useCallback(
+    (incrementor) => {
+      return [
+        number + incrementor,
+        number + 1 + incrementor,
+        number + 2 + incrementor,
+      ];
+    },
+    [number]
+  );
+
+  const theme = {
+    backgroundColor: dark ? "#333" : "#fff",
+    color: dark ? "#fff" : "#333",
   };
-  const doubleNumber = useMemo(() => {
-    return slowFunction(number);
-  }, [number]);
-
-  const themeStyles = useMemo(() => {
-    return {
-      backgroundColor: dark ? "black" : "white",
-      color: dark ? "white" : "black",
-    };
-  }, [dark]);
-
-  useEffect(() => {
-    console.log("Theme changed");
-  }, [themeStyles]);
 
   return (
-    <div>
+    <div style={theme}>
       <input
         type="number"
         value={number}
         onChange={(e) => setNumber(parseInt(e.target.value))}
       />
-      <button onClick={() => setDark((prev) => !prev)}>Change Theme</button>
-      <div style={themeStyles}>{doubleNumber}</div>
+      <button onClick={() => setDark((prev) => !prev)}>Toggle theme</button>
+      <List getItems={getItems} />
     </div>
   );
 }
