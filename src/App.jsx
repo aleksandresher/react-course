@@ -1,13 +1,40 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
-import Text from "./components/Text";
 
 function App() {
-  const [showText, setShowText] = useState(false);
+  const [number, setNumber] = useState(0);
+  const [dark, setDark] = useState(false);
+
+  const slowFunction = function (num) {
+    console.log("Calling slow function");
+    for (let i = 0; i < 10000000; i++) {
+      return num * 2;
+    }
+  };
+  const doubleNumber = useMemo(() => {
+    return slowFunction(number);
+  }, [number]);
+
+  const themeStyles = useMemo(() => {
+    return {
+      backgroundColor: dark ? "black" : "white",
+      color: dark ? "white" : "black",
+    };
+  }, [dark]);
+
+  useEffect(() => {
+    console.log("Theme changed");
+  }, [themeStyles]);
+
   return (
     <div>
-      <button onClick={() => setShowText(!showText)}>Show Text</button>
-      {showText && <Text />}
+      <input
+        type="number"
+        value={number}
+        onChange={(e) => setNumber(parseInt(e.target.value))}
+      />
+      <button onClick={() => setDark((prev) => !prev)}>Change Theme</button>
+      <div style={themeStyles}>{doubleNumber}</div>
     </div>
   );
 }
